@@ -1,0 +1,54 @@
+{
+  "name": "you-download-tube",
+  "version": "0.1.0",
+  "description": "a desktop application for downloading music from youtube",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaaseddik/YouDownloadTube.git"
+  },
+  "keywords": [
+    "youtube",
+    "music",
+    "mp3"
+  ],
+  "author": "Mohamed Rafaa Seddik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rafaaseddik/YouDownloadTube/issues"
+  },
+  "homepage": "./",
+  "main": "src/electron-starter.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "dev": "nf start -p 3000",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "electron-dev-windows": "set ELECTRON_START_URL=http://localhost:3000 && electron ."
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.2.1",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.11.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-router": "^3.2.0",
+    "react-scripts": "2.1.3"
+  },
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "foreman": "^3.0.1"
+  }
+}

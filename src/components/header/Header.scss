@@ -1,0 +1,20 @@
+.header-bar{
+  background: #E9E9E9;
+  -webkit-app-region: drag;
+
+  .header-btn{
+    -webkit-app-region: no-drag;
+    padding: 0 20px;
+    color: #333333;
+    border-radius: 0;
+    border: none;
+    margin: -5px 0 0;
+    &:hover{
+      background: #c2c2c2;
+    }
+    &.header-btn-close:hover{
+      background: #ff2222;
+      color:white;
+    }
+  }
+}
