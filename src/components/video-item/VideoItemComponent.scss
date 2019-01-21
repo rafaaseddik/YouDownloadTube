@@ -1,0 +1,16 @@
+.video-item {
+  border:1px solid #bbb;
+  .video-title {
+    font-size: 0.8em;
+    margin-bottom: 0;
+    font-weight: bold
+  }
+  .video-length{
+    font-size: 0.7em;
+    margin-bottom: 0;
+  }
+  .video-description{
+    font-size: 0.75em;
+    margin-bottom: 0;
+  }
+}
