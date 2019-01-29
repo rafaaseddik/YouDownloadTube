@@ -1,19 +1,22 @@
+@import "../../assets/colors";
 .header-bar{
-  background: #E9E9E9;
+  background: $dark-blue;
   -webkit-app-region: drag;
+
   .header-logo{
     height: 20px;
     margin: 5px 10px;
   }
   .header-title{
     font-size: 13px;
-    padding: 5px !important;
+    padding: 6px 15px !important;
     font-weight: 500;
+    color: #ddd;
   }
   .header-btn{
     -webkit-app-region: no-drag;
     padding: 0 25px;
-    color: #333333;
+    color: white;
     border-radius: 0;
     border: none;
     margin: 0px;

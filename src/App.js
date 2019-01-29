@@ -20,7 +20,7 @@ class App extends Component {
                     <Route path='/single/single-song-download' component={SingleSongDownloadComponent}/>
                     <Route path='/playlist/playlist-download' component={PlaylistDownloadComponent}/>
                     <Route path='/playlist/custom-playlist' component={CustomPlaylistComponent}/>
-                    <Route path='/playlist/existing-playlist"' component={ExistingPlaylistComponent}/>
+                    <Route path='/playlist/existing-playlist' component={ExistingPlaylistComponent}/>
                     <Route path='/about' component={AboutComponent}/>
                 </Router>
             </div>

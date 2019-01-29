@@ -1,5 +1,6 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "./assets/fonts/Lato/latofonts";
+@import "./assets/colors";
 body {
   margin: 0;
   padding: 0;
@@ -8,7 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #29323F;
+  background: $dark-blue;
 }
 
 a:hover{
@@ -22,6 +23,7 @@ code {
   outline: 0;
   box-shadow: none!important;
 }
+
 .form-check-input.no-negative-margin{
   position: relative;
   margin-left: 0;

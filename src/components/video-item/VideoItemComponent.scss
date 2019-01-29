@@ -2,15 +2,37 @@
   border:1px solid #bbb;
   .video-title {
     font-size: 0.8em;
+    margin-top: 10px;
     margin-bottom: 0;
-    font-weight: bold
+    font-weight: bold;
+
   }
   .video-length{
     font-size: 0.7em;
-    margin-bottom: 0;
+    margin-bottom: 5px;
   }
   .video-description{
     font-size: 0.75em;
     margin-bottom: 0;
+  }
+  .background-overlay{
+    //background-image: linear-gradient(to right top, #1afed5, #66ffe0, #90ffe9, #b3fff1, #d2fff7);
+    position: absolute;
+    left: 0;
+    top:0;
+    bottom: 0;
+    right:0;
+    background: linear-gradient(270deg, #1afed5, #007f64);
+    background-size: 200% 200%;
+
+    -webkit-animation: loadingAnimation 3s ease infinite;
+
+
+    @-webkit-keyframes loadingAnimation {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
   }
 }

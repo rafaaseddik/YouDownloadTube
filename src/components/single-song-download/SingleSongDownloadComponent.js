@@ -21,7 +21,8 @@ class SingleSongDownloadComponent extends Component {
             percentage: 0,
             videoObj: null,
             watchClipboard: true,
-            filename: ""
+            filename: "",
+            loadingVideoInfo: false
         };
     }
 
@@ -29,13 +30,15 @@ class SingleSongDownloadComponent extends Component {
         this.setState({videoUrl: e.target.value});
         if (YoutubeDownloaderUtils.matchYoutubeUrl(e.target.value)) {
             this.setState({
-                currentAction:"Looking for video info"
-            })
+                currentAction: "Looking for video info",
+                loadingVideoInfo: true
+            });
             YoutubeDownloaderUtils.getVideoBasicInfo(e.target.value).then(videoInfo => {
                 this.setState({
                     videoObj: videoInfo,
                     filename: filenamify(videoInfo.title),
-                    currentAction:`Click on "Download" to start downloading "${videoInfo.title}"`
+                    currentAction: `Click on "Download" to start downloading "${videoInfo.title}"`,
+                    loadingVideoInfo: false
                 })
             })
         }
@@ -50,9 +53,10 @@ class SingleSongDownloadComponent extends Component {
     handleFocus() {
         if (this.state.watchClipboard) {
             let clipboardText = clipboard.readText();
-            this.handleChange({
-                target:{value:clipboardText}
-            })
+            if (YoutubeDownloaderUtils.matchYoutubeUrl(clipboardText))
+                this.handleChange({
+                    target: {value: clipboardText}
+                })
         }
     }
 
@@ -60,50 +64,46 @@ class SingleSongDownloadComponent extends Component {
         let outputPath = dialog.showSaveDialog({
             defaultPath: this.state.filename
         });
-        this.setState({
-            currentAction: "1/3 - Initializing download..."
-        });
-        YoutubeDownloaderUtils.downloadVideoAsMp4(this.state.videoUrl, outputPath, VideoFormat.AUDIO_ONLY, VideoQuality.LOWESTAUDIO).subscribe(
-            next => {
-                switch (next.type) {
-                    case ProgressInfoTypes.VIDEO_INFO: {
-                        this.setState({
-                            videoObj: next.messageObject
+        if (outputPath) {
+            this.setState({
+                currentAction: "1/3 - Initializing download..."
+            });
+            YoutubeDownloaderUtils.downloadVideoAsMp4(this.state.videoUrl, outputPath, VideoFormat.AUDIO_ONLY, VideoQuality.LOWESTAUDIO).subscribe(
+                next => {
+                    switch (next.type) {
+                        case ProgressInfoTypes.DOWNLOAD: {
+                            this.setState({
+                                currentAction: next.messageObject,
+                                percentage: next.progress
+                            });
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                },
+                error => {
+                },
+                (complete) => {
+                    YoutubeDownloaderUtils.convertMp4ToMp3(outputPath).subscribe(
+                        (next) => {
+                            this.setState({
+                                currentAction: next.messageObject,
+                                percentage: next.progress
+                            });
+                        }, (error) => {
+
+                        }, (complete) => {
+                            this.setState({
+                                percentage: -1
+                            });
+                            YoutubeDownloaderUtils.removeTemporaryFile(outputPath + ".mp4");
+                            shell.showItemInFolder(outputPath + ".mp3");
+
                         })
-                        break;
-                    }
-                    case ProgressInfoTypes.DOWNLOAD: {
-                        this.setState({
-                            currentAction: next.messageObject,
-                            percentage: next.progress
-                        });
-                        break;
-                    }
-                    default:
-                        break;
                 }
-            },
-            error => {
-            },
-            (complete) => {
-                YoutubeDownloaderUtils.convertMp4ToMp3(outputPath).subscribe(
-                    (next) => {
-                        this.setState({
-                            currentAction: next.messageObject,
-                            percentage: next.progress
-                        });
-                    }, (error) => {
-
-                    }, (complete) => {
-                        this.setState({
-                            percentage: -1
-                        });
-                        YoutubeDownloaderUtils.removeTemporaryFile(outputPath + ".mp4");
-                        shell.showItemInFolder(outputPath + ".mp3");
-
-                    })
-            }
-        );
+            );
+        }
     }
 
 
@@ -114,7 +114,7 @@ class SingleSongDownloadComponent extends Component {
                     <div className={"row component-header"}>
                         <div className={"col-2 no-padding"}>
                             <Link to={"/"}>
-                                <button className={"btn btn-dark btn-block btn-main-menu no-border-radius "}>Main Menu
+                                <button className={"btn btn-block no-border-radius btn-main-menu"}>Main Menu
                                 </button>
                             </Link>
                         </div>
@@ -126,15 +126,15 @@ class SingleSongDownloadComponent extends Component {
                     </div>
                 </div>
                 <div className={"container main-page"}>
-                    <div className={"row"}>
+                    <div className={"row form-elements"}>
                         <div className={"col-9"}>
-                            <input className={"form-control"} value={this.state.videoUrl}
+                            <input className={"form-control input-field"} value={this.state.videoUrl}
                                    onChange={(e) => this.handleChange(e)}
                                    placeholder={"Insert your video's Youtube link here"}
                                    onFocus={() => this.handleFocus()}/>
                         </div>
                         <div className={"col-3 no-padding"}>
-                            <button className={"btn btn-outline-light btn-block no-border-radius"}
+                            <button className={"btn btn-candy btn-block"}
                                     onClick={() => this.handleSubmit()}
                                     disabled={this.state.videoObj == null}>Download
                             </button>
@@ -152,8 +152,9 @@ class SingleSongDownloadComponent extends Component {
 
 
                     <br/>{
-                    this.state.videoObj != null ? (<div>
-                        <VideoItemComponent {...this.state.videoObj} />
+                    (this.state.videoObj != null || this.state.loadingVideoInfo) ? (<div>
+                        <VideoItemComponent {...this.state.videoObj} loadingVideoInfo={this.state.loadingVideoInfo}
+                                            pourcentage={this.state.percentage}/>
                     </div>) : ''
                 }
                     <br/>
