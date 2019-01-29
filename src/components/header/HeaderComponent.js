@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import './Header.scss'
-import logo from '../../assets/img/logo.png'
 
 class HeaderComponent extends Component{
     constructor(props){
@@ -35,17 +34,12 @@ class HeaderComponent extends Component{
         return (
             <div className={"container-fluid"}>
                 <div className={"header-bar row"}>
-                    <div className={"col-4 text-left no-padding"}>
-                        <img className={"header-logo"} src={logo} alt={"Application logo"} />
-                    </div>
-                    <div className={"col-4 text-center no-padding header-title"}>
+                    <div className={"col-8 text-left header-title"}>
                         YouDownloadTube
                     </div>
                     <div className={"col-4 text-right no-padding"}>
                         <button className={"btn header-btn"} onClick={()=>this.handleMinimize()}>-</button>
-                        <button className={"btn header-btn"} onClick={()=>this.handleMaximize()}>
-                            o
-                        </button>
+
                         <button className={"btn header-btn header-btn-close"} onClick={()=>this.handleClose()}>x</button>
                     </div>
                 </div>
